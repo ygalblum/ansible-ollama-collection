@@ -34,19 +34,19 @@ Default `mistral`
 
 Expose the insecure port `11434` from container.
 
-Default `True`
+Default `true`
 
 ### `ollama_expose_insecure_port_only_local`
 
 Expose the insecure port `11434` from container only to the localhost.
 
-Default `True`
+Default `true`
 
 ### `ollama_expose_secured_port`
 
 Expose `Ollama` via a secure port by running a sidecar container running [Envoy Proxy](https://www.envoyproxy.io/)
 
-Default `False`
+Default `false`
 
 ### `ollama_secured_port`
 
@@ -60,7 +60,7 @@ Use K8S [Certificate Manager](https://cert-manager.io/) to obtain the certificat
 
 If set to `True`, the role will access Kubernetes from the localhost
 
-Default `False`
+Default `false`
 
 ### `ollama_certificate_ca_file`
 
