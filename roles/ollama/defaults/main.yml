@@ -6,4 +6,7 @@ ollama_expose_insecure_port_only_local: True
 ollama_expose_secured_port: False
 ollama_secured_port: 11435
 ollama_proxy_certs_dir: ollama-proxy-certs
-ollama_expose_insecure_port: False
+ollama_use_k8s_cert_manager: False
+ollama_certificate_ca_file: ""
+ollama_certificate_cert_file: ""
+ollama_certificate_key_file: ""

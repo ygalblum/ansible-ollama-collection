@@ -1,3 +1,7 @@
+- name: Preflight Checks
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
 - name: Installations
   ansible.builtin.include_tasks:
     file: install.yml

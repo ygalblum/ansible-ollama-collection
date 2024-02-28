@@ -1,0 +1,23 @@
+- name: Preflight checks for secure mode
+  delegate_to: localhost
+  run_once: true
+  when: ollama_expose_secured_port
+  block:
+  - name: If not using certificate manager - check that the certificates are provided
+    when: not ollama_use_k8s_cert_manager
+    ansible.builtin.assert:
+      that:
+      - ollama_certificate_ca_file | default("") | length > 0
+      - ollama_certificate_cert_file | default("") | length > 0
+      - ollama_certificate_key_file | default("") | length > 0
+  - name: If using certificate manager - Check that the required parameters for creating a certificate are set
+    when: ollama_use_k8s_cert_manager
+    block:
+    - name: Check the issuer name was set
+      ansible.builtin.assert:
+        that: ollama_certificate_ca_issuer | default('') | length > 0
+        fail_msg: ollama_certificate_ca_issuer must be set
+    - name: Check the FQDN was set
+      ansible.builtin.assert:
+        that: ollama_fqdn | default('') | length > 0
+        fail_msg: ollama_fqdn must be set
