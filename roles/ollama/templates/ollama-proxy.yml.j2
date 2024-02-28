@@ -2,21 +2,21 @@
 apiVersion: v1
 kind: Deployment
 metadata:
-  name: knowledgebase-ollama-proxy
+  name: ollama-proxy
   labels:
-    app: knowledgebase
-    component: ollama-proxy
+    app: ollama
+    component: proxy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: knowledgebase
-      component: ollama-proxy
+      app: ollama
+      component: proxy
   template:
     metadata:
       labels:
-        app: knowledgebase
-        component: ollama-proxy
+        app: ollama
+        component: proxy
     spec:
       containers:
       - name: envoy
