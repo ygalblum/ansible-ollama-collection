@@ -5,18 +5,18 @@ metadata:
   name: knowledgebase-ollama-proxy
   labels:
     app: knowledgebase
-    componenet: ollama-proxy
+    component: ollama-proxy
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: knowledgebase
-      componenet: ollama-proxy
+      component: ollama-proxy
   template:
     metadata:
       labels:
         app: knowledgebase
-        componenet: ollama-proxy
+        component: ollama-proxy
     spec:
       containers:
       - name: envoy
