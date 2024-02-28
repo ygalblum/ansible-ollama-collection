@@ -10,9 +10,10 @@
     current_kernel_version: "{{ ansible_facts.kernel }}"
 
 - name: Upgrade all packages
-  ansible.builtin.package:
+  ansible.builtin.dnf:
     name: "*"
     state: latest
+    update_only: true
   async: 1800
   poll: 60
 
