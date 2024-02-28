@@ -62,6 +62,24 @@ If set to `True`, the role will access Kubernetes from the localhost
 
 Default `false`
 
+### `ollama_certificate_namespace`
+
+Kubernetes Namespace for the CA issuer and the created certificate
+
+Required when `ollama_use_k8s_cert_manager` is set to `True`
+
+### `ollama_certificate_ca_issuer`
+
+Name of the Kubernetes Cert-Manager CA Issuer resource
+
+Required when `ollama_use_k8s_cert_manager` is set to `True`
+
+### `ollama_fqdn`
+
+FQDN for the Server to use for the certificate `dnsNames`
+
+Required when `ollama_use_k8s_cert_manager` is set to `True`
+
 ### `ollama_certificate_ca_file`
 
 Path for the CA Certificate on the localhost
