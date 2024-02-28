@@ -55,3 +55,4 @@
   async: 1800
   poll: 60
   loop: "{{ ollama_models }}"
+  changed_when: true
