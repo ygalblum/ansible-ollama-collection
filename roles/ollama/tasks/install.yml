@@ -44,7 +44,7 @@
 
 - name: Add NVIDIA CUDA repository
   ansible.builtin.command:
-    cmd: "dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/{{ ollama_cuda_os_name }}{{ ollama_cuda_os_version }}/{{ ansible_machine }}/cuda-{{ ollama_cuda_os_name }}{{ ollama_cuda_os_version }}.repo"
+    cmd: "dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/{{ ollama_cuda_os_name }}{{ ollama_cuda_os_version }}/{{ ansible_machine }}/cuda-{{ ollama_cuda_os_name }}{{ ollama_cuda_os_version }}.repo" # noqa: yaml[line-length]
     creates: /etc/yum.repos.d/cuda-{{ ollama_cuda_os_name }}{{ ollama_cuda_os_version }}.repo
 
 - name: Add NVIDIA toolkit repository
