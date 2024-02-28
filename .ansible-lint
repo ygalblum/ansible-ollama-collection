@@ -2,4 +2,8 @@
 exclude_paths:
 - .github
 - changelogs
+- inventory.yml
+- ansible.cfg
+skip_list:
+- galaxy[no-changelog]
 ...
