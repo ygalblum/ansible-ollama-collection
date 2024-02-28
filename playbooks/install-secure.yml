@@ -1,6 +1,6 @@
 - name: Install Secured Ollama
   hosts: ollama
   vars:
-    ollama_expose_secured_port: True
+    ollama_expose_secured_port: true
   roles:
   - ollama
