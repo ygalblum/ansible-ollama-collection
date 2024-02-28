@@ -49,8 +49,9 @@
   retries: 180
   delay: 10
 
-- name: Pull model
+- name: Pull models
   ansible.builtin.command:
-    cmd: "podman exec ollama ollama pull {{ ollama_model }}"
+    cmd: "podman exec ollama ollama pull {{ item }}"
   async: 1800
   poll: 60
+  loop: "{{ ollama_models }}"
