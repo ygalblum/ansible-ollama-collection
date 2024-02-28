@@ -8,7 +8,7 @@
 
 - name: Create template files list
   ansible.builtin.set_fact:
-    _ollama_template_files_list: "{{['ollama.container', 'ollama.network', 'ollama.volume']}}"
+    _ollama_template_files_list: "{{ ['ollama.container', 'ollama.network', 'ollama.volume'] }}"
     _ollama_services_list: "{{ ['ollama'] }}"
 
 - name: Setup Proxy
