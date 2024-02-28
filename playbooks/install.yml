@@ -1,0 +1,4 @@
+- name: Install Secured Ollama
+  hosts: ollama
+  roles:
+  - ollama

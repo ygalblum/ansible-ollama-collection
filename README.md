@@ -26,8 +26,8 @@ The collection includes a single role
 ## Installation Playbook
 
 The collection includes two example playbooks
-- [install-insecure](./playbooks/install-insecure.yml) for provisioning ollama with an insecure port. By default, the port is exposed only within the local network
-- [install-secure](./playbooks/[install-secure.yml) for provisioning ollama with a secure port
+- [install](./playbooks/install.yml) for provisioning ollama with an insecure port. By default, the port is exposed only within the local network
+- [install-secure](./playbooks/install-secure.yml) for provisioning ollama with a secure port
 
 To use the installer playbook create an inventory file indicating the machine type - `ollama`.
 
@@ -45,7 +45,7 @@ all:
 ### Using the installer
 
 ```bash
-ansible-playbook -i  </path/to/inventory> < ygalblum.ollama.install-insecure | ygalblum.ollama.install-secure >
+ansible-playbook -i  </path/to/inventory> < ygalblum.ollama.install | ygalblum.ollama.install-secure >
 ```
 
 ## Installing the collection from Ansible Galaxy
