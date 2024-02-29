@@ -25,9 +25,8 @@ The collection includes a single role
 
 ## Installation Playbook
 
-The collection includes two example playbooks
+The collection includes a playbook for the installation
 - [install](./playbooks/install.yml) for provisioning ollama with an insecure port. By default, the port is exposed only within the local network
-- [install-secure](./playbooks/install-secure.yml) for provisioning ollama with a secure port
 
 To use the installer playbook create an inventory file indicating the machine type - `ollama`.
 
@@ -42,10 +41,45 @@ all:
         controller.example.com:
 ```
 
+### Sample Installation Options
+
+#### Local server
+
+This is the default installation. No extra parameters are required
+
+#### Server with non-secure port
+
+If you can limit the access to the port, you may choose to open the non-secure port to the external network
+
+```yaml
+ollama_expose_insecure_port_only_local: false
+```
+
+#### Server with mTLS - Local Certificates
+
+```yaml
+ollama_expose_insecure_port: false
+ollama_expose_secured_port: true
+ollama_certificate_ca_file: "/path/to/ca"
+ollama_certificate_cert_file: "/path/to/crt"
+ollama_certificate_key_file: "/path/to//key"
+```
+
+#### Server with mTLS - Kubernetes Certificate Manager
+
+```yaml
+ollama_expose_insecure_port: false
+ollama_expose_secured_port: true
+ollama_use_k8s_cert_manager: true
+ollama_certificate_namespace: < Namespace of the CA Issuer and Certificate >
+ollama_certificate_ca_issuer: < Name of the CA Issuer >
+ollama_fqdn: < Server FQDN >
+```
+
 ### Using the installer
 
 ```bash
-ansible-playbook -i  </path/to/inventory> < ygalblum.ollama.install | ygalblum.ollama.install-secure >
+ansible-playbook -i  </path/to/inventory> -e @</path/to/env_file> ygalblum.ollama.install
 ```
 
 ## Installing the collection from Ansible Galaxy
