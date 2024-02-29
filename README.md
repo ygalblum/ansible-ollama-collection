@@ -38,7 +38,7 @@ all:
   children:
     ollama:
       hosts:
-        controller.example.com:
+        ollama.example.com:
 ```
 
 ### Sample Installation Options
