@@ -19,3 +19,10 @@ ollama_proxy_admin_expose_insecure: false
 ollama_proxy_admin_expose_insecure_only_local: true
 ollama_proxy_admin_expose_secure: false
 ollama_proxy_admin_secure_port: 19901
+# Fluentbit for Prometheus metric exporting
+ollama_fluentbit_enable: false
+ollama_fluentbit_image_tag: "2.2"
+ollama_fluentbit_expose_insecure: false
+ollama_fluentbit_expose_insecure_only_local: true
+ollama_fluentbit_expose_secure: false
+ollama_fluentbit_expose_secure_port: 12021

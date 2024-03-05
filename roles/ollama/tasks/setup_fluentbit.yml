@@ -1,0 +1,4 @@
+- name: Add FluentBit files and services
+  ansible.builtin.set_fact:
+    _ollama_template_files_list: "{{ _ollama_template_files_list + ['fluentbit.container', 'fluentbit.conf'] }}"
+    _ollama_services_list: "{{ _ollama_services_list + ['fluentbit'] }}"

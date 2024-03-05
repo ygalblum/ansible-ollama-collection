@@ -15,6 +15,10 @@
   when: ollama_expose_secured_port
   ansible.builtin.include_tasks: setup_secure_port.yml
 
+- name: Setup FluentBit
+  when: ollama_fluentbit_enable
+  ansible.builtin.include_tasks: setup_fluentbit.yml
+
 - name: Create Quadlet files
   ansible.builtin.template:
     src: "{{ item }}.j2"
