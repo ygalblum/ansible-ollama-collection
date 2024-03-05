@@ -1,8 +1,11 @@
 name: Ansible Lint
+
 on:
-- push
-- pull_request
-- workflow_call
+  push:
+    branches:
+    - main
+  pull_request:
+  workflow_call:
 
 jobs:
   ansible-lint:
