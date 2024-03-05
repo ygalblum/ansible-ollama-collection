@@ -122,6 +122,42 @@ Set the port number for the proxy admin secure port.
 
 Default `19901`
 
+### `ollama_fluentbit_enable`
+
+Provision [FluentBit](https://fluentbit.io/) to scrape metrics and act as a Prometheus exporter
+
+Default `false`
+
+### `ollama_fluentbit_image_tag`
+
+Tag of FluentBit [container image](https://hub.docker.com/r/fluent/fluent-bit)
+
+Default `2.2`
+
+### `ollama_fluentbit_expose_insecure`
+
+Expose the FluentBit insecure port.
+
+Default `false`
+
+### `ollama_fluentbit_expose_insecure_only_local`
+
+Expose the FluentBit insecure port `2021` only to the localhost.
+
+Default `true`
+
+### `ollama_fluentbit_expose_secure`
+
+Expose the FluentBit port as a secure port using the same certificates
+
+Default `false`
+
+### `ollama_fluentbit_expose_secure_port`
+
+Set the port number for the FluentBit secure port.
+
+Default `12021`
+
 ## Example Playbook
 
 ```yaml
