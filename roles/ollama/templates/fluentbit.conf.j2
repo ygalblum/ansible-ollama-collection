@@ -1,0 +1,94 @@
+[INPUT]
+    Name cpu
+    Tag  cpu
+
+[INPUT]
+    Name   mem
+    Tag memory
+
+[FILTER]
+    Name log_to_metrics
+    Match cpu
+    tag cpu_metric
+    metric_mode gauge
+    metric_name cpu
+    metric_description CPU usage of overall system
+    value_field cpu_p
+
+[FILTER]
+    Name log_to_metrics
+    Match cpu
+    tag cpu_user_metric
+    metric_mode gauge
+    metric_name cpu
+    metric_description CPU usage in User mode
+    value_field user_p
+
+[FILTER]
+    Name log_to_metrics
+    Match cpu
+    tag cpu_metric
+    metric_mode gauge
+    metric_name cpu
+    metric_description CPU usage in Kernel mode
+    value_field system_p
+
+[FILTER]
+    Name log_to_metrics
+    Match memory
+    tag memory_metric
+    metric_mode gauge
+    metric_name mem.total
+    metric_description Memory - Total
+    value_field Mem.total
+
+[FILTER]
+    Name log_to_metrics
+    Match memory
+    tag memory_metric
+    metric_mode gauge
+    metric_name mem.used
+    metric_description Memory - Used
+    value_field Mem.used
+
+[FILTER]
+    Name log_to_metrics
+    Match memory
+    tag memory_metric
+    metric_mode gauge
+    metric_name mem.free
+    metric_description Memory - Free
+    value_field Mem.free
+
+[FILTER]
+    Name log_to_metrics
+    Match memory
+    tag memory_metric
+    metric_mode gauge
+    metric_name swap.total
+    metric_description Swap Memory - Total
+    value_field Swap.total
+
+[FILTER]
+    Name log_to_metrics
+    Match memory
+    tag memory_metric
+    metric_mode gauge
+    metric_name swap.used
+    metric_description Swap Memory - Used
+    value_field Swap.used
+
+[FILTER]
+    Name log_to_metrics
+    Match memory
+    tag memory_metric
+    metric_mode gauge
+    metric_name swap.free
+    metric_description Swap Memory - Free
+    value_field Swap.free
+
+[OUTPUT]
+    name               prometheus_exporter
+    match              *_metric
+    host               0.0.0.0
+    port               2021

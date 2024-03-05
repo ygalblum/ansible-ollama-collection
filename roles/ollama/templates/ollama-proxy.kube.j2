@@ -11,6 +11,9 @@ PublishPort=9901:9901
 {% if ollama_proxy_admin_expose_secure %}
 PublishPort={{ ollama_proxy_admin_secure_port }}:{{ ollama_proxy_admin_secure_port }}
 {% endif %}
+{% if ollama_fluentbit_enable and ollama_fluentbit_expose_secure %}
+PublishPort={{ ollama_fluentbit_expose_secure_port }}:{{ ollama_fluentbit_expose_secure_port }}
+{% endif %}
 Network=ollama.network
 ConfigMap=ollama-proxy-config.yml
 
