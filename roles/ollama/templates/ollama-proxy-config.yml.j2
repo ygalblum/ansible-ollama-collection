@@ -45,6 +45,42 @@ data:
                   #     exact: proxy-ollama-frontend.example.com
                   trusted_ca:
                     filename: /etc/envoy-certificates/ca.crt
+{% if ollama_proxy_admin_expose_secure %}
+      - name: admin_listener
+        address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: {{ ollama_proxy_admin_secure_port }}
+        listener_filters:
+        - name: "envoy.filters.listener.tls_inspector"
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector
+        filter_chains:
+        - filters:
+          - name: envoy.filters.network.tcp_proxy
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+              stat_prefix: admin_tcp
+              cluster: admin_cluster
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              require_client_certificate: true
+              common_tls_context:
+                tls_certificates:
+                - certificate_chain:
+                    filename: /etc/envoy-certificates/tls.crt
+                  private_key:
+                    filename: /etc/envoy-certificates/tls.key
+                validation_context:
+                  # match_typed_subject_alt_names:
+                  # - san_type: DNS
+                  #   matcher:
+                  #     exact: proxy-ollama-frontend.example.com
+                  trusted_ca:
+                    filename: /etc/envoy-certificates/ca.crt
+{% endif %}
 
       clusters:
       - name: ollama_cluster
@@ -58,3 +94,16 @@ data:
                   socket_address:
                     address: ollama
                     port_value: 11434
+{% if ollama_proxy_admin_expose_secure  %}
+      - name: admin_cluster
+        type: STRICT_DNS
+        load_assignment:
+          cluster_name: admin_cluster
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: 127.0.0.1
+                    port_value: 9901
+{% endif %}

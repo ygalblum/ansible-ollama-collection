@@ -14,3 +14,8 @@ ollama_certificate_key_file: ""
 ollama_use_k8s_cert_manager: false
 ollama_certificate_ca_issuer: ""
 ollama_fqdn: ""
+# Expose the Proxy admin port
+ollama_proxy_admin_expose_insecure: false
+ollama_proxy_admin_expose_insecure_only_local: true
+ollama_proxy_admin_expose_secure: false
+ollama_proxy_admin_secure_port: 19901
