@@ -98,6 +98,29 @@ Path for the Key on the localhost
 
 Required unless `ollama_use_k8s_cert_manager` is set to `True`
 
+### `ollama_proxy_admin_expose_insecure`
+
+Expose the proxy admin insecure port.
+
+Default `false`
+
+### `ollama_proxy_admin_expose_insecure_only_local`
+
+Expose the proxy admin insecure port `9901` only to the localhost.
+
+Default `true`
+
+### `ollama_proxy_admin_expose_secure`
+
+Expose the proxy admin port as a secure port using the same certificates
+
+Default `false`
+
+### `ollama_proxy_admin_secure_port`
+
+Set the port number for the proxy admin secure port.
+
+Default `19901`
 
 ## Example Playbook
 
