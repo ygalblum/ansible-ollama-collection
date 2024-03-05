@@ -53,6 +53,6 @@
   ansible.builtin.command:
     cmd: "podman exec ollama ollama pull {{ item }}"
   async: 1800
-  poll: 60
+  poll: 10
   loop: "{{ ollama_models }}"
   changed_when: true
