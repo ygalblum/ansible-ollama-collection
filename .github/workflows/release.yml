@@ -8,11 +8,11 @@ on:
 
 jobs:
   ansible-lint:
-    uses: ygalblum/ansible-ollama-collection/.github/workflows/ansible-lint.yml@main
+    uses: ygalblum/ansible-collection-ollama/.github/workflows/ansible-lint.yml@main
   codespell:
-    uses: ygalblum/ansible-ollama-collection/.github/workflows/codespell.yml@main
+    uses: ygalblum/ansible-collection-ollama/.github/workflows/codespell.yml@main
   jinja-lint:
-    uses: ygalblum/ansible-ollama-collection/.github/workflows/jinja-lint.yml@main
+    uses: ygalblum/ansible-collection-ollama/.github/workflows/jinja-lint.yml@main
   prechecks:
     needs:
       - ansible-lint
