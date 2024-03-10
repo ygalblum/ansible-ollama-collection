@@ -13,3 +13,14 @@ releases:
     fragments:
     - expose-admin-port.yaml
     release_date: '2024-03-05'
+  1.2.0:
+    changes:
+      minor_changes:
+      - Allow provisioning FluentBit to create a Prometheus exporter
+      - Poll more frequently when pulling the models
+      - The GH Repository was renamed
+    fragments:
+    - add-fluentbit-monitor.yml
+    - pull-image-increase-poll.yml
+    - rename-repo.yml
+    release_date: '2024-03-10'

@@ -1,2 +1,0 @@
-minor_changes:
-- Allow provisioning FluentBit to create a Prometheus exporter

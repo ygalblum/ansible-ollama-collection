@@ -4,6 +4,16 @@ ygalblum.ollama Release Notes
 
 .. contents:: Topics
 
+v1.2.0
+======
+
+Minor Changes
+-------------
+
+- Allow provisioning FluentBit to create a Prometheus exporter
+- Poll more frequently when pulling the models
+- The GH Repository was renamed
+
 v1.1.0
 ======
 
