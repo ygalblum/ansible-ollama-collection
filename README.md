@@ -123,12 +123,12 @@ Refer to our [contribution guide](./CONTRIBUTING.md) for more information
 
 ## Reporting issues
 
-Please open a [new issue](https://github.com/ygalblum/ansible-ollama-collection/issues/new/choose) for any bugs or security vulnerabilities you may encounter.
+Please open a [new issue](https://github.com/ygalblum/ansible-collection-ollama/issues/new/choose) for any bugs or security vulnerabilities you may encounter.
 We also invite you to open an issue if you have ideas on how we can improve the solution or want to make a suggestion for enhancement.
 
 ## Release notes
 
-See the [changelog](https://github.com/ygalblum/ansible-ollama-collection/tree/main/CHANGELOG.rst).
+See the [changelog](https://github.com/ygalblum/ansible-collection-ollama/tree/main/CHANGELOG.rst).
 
 ## Licensing
 
