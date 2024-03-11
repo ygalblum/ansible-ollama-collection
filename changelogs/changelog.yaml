@@ -24,3 +24,11 @@ releases:
     - pull-image-increase-poll.yml
     - rename-repo.yml
     release_date: '2024-03-10'
+  1.2.1:
+    changes:
+      bugfixes:
+      - Replace . with _ in mem metric names
+      - The same metric name was used for all CPU metrics
+    fragments:
+    - fluentbit-metric-names.yml
+    release_date: '2024-03-11'
