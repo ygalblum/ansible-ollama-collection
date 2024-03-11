@@ -4,6 +4,15 @@ ygalblum.ollama Release Notes
 
 .. contents:: Topics
 
+v1.2.1
+======
+
+Bugfixes
+--------
+
+- Replace . with _ in mem metric names
+- The same metric name was used for all CPU metrics
+
 v1.2.0
 ======
 
