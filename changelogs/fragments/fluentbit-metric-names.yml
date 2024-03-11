@@ -1,0 +1,3 @@
+bugfixes:
+- The same metric name was used for all CPU metrics
+- Replace . with _ in mem metric names

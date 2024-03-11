@@ -11,7 +11,7 @@
     Match cpu
     tag cpu_metric
     metric_mode gauge
-    metric_name cpu
+    metric_name cpu_total
     metric_description CPU usage of overall system
     value_field cpu_p
 
@@ -20,7 +20,7 @@
     Match cpu
     tag cpu_user_metric
     metric_mode gauge
-    metric_name cpu
+    metric_name cpu_user
     metric_description CPU usage in User mode
     value_field user_p
 
@@ -29,7 +29,7 @@
     Match cpu
     tag cpu_metric
     metric_mode gauge
-    metric_name cpu
+    metric_name cpu_system
     metric_description CPU usage in Kernel mode
     value_field system_p
 
@@ -38,7 +38,7 @@
     Match memory
     tag memory_metric
     metric_mode gauge
-    metric_name mem.total
+    metric_name mem_total
     metric_description Memory - Total
     value_field Mem.total
 
@@ -47,7 +47,7 @@
     Match memory
     tag memory_metric
     metric_mode gauge
-    metric_name mem.used
+    metric_name mem_used
     metric_description Memory - Used
     value_field Mem.used
 
@@ -56,7 +56,7 @@
     Match memory
     tag memory_metric
     metric_mode gauge
-    metric_name mem.free
+    metric_name mem_free
     metric_description Memory - Free
     value_field Mem.free
 
@@ -65,7 +65,7 @@
     Match memory
     tag memory_metric
     metric_mode gauge
-    metric_name swap.total
+    metric_name swap_total
     metric_description Swap Memory - Total
     value_field Swap.total
 
@@ -74,7 +74,7 @@
     Match memory
     tag memory_metric
     metric_mode gauge
-    metric_name swap.used
+    metric_name swap_used
     metric_description Swap Memory - Used
     value_field Swap.used
 
@@ -83,7 +83,7 @@
     Match memory
     tag memory_metric
     metric_mode gauge
-    metric_name swap.free
+    metric_name swap_free
     metric_description Swap Memory - Free
     value_field Swap.free
 
