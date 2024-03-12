@@ -32,3 +32,10 @@ releases:
     fragments:
     - fluentbit-metric-names.yml
     release_date: '2024-03-11'
+  2.0.0:
+    changes:
+      major_changes:
+      - Change deployment to non-containerized
+    fragments:
+    - non-containerized.yml
+    release_date: '2024-03-12'
