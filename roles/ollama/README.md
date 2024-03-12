@@ -10,41 +10,15 @@ Currently, the collection is aimed at RPM based operating systems.
 
 ## Role Variables
 
-### `ollama_quadlet_directory`
-
-Location to save the Quadlet files.
-
-By default, the role runs ollama as rootless and therefore will use `~/.config/containers/systemd/`
-
-### `ollama_container_image_tag`
-
-Ollama container image tag.
-
-Default `latest`.
-
-For more details see [Ollama Docker image](https://hub.docker.com/r/ollama/ollama)
-
 ### `ollama_models`
 
 List of LLM models to preload.
 
-Default `mistral`
-
-### `ollama_expose_insecure_port`
-
-Expose the insecure port `11434` from container.
-
-Default `true`
-
-### `ollama_expose_insecure_port_only_local`
-
-Expose the insecure port `11434` from container only to the localhost.
-
-Default `true`
+Default `['mistral']`
 
 ### `ollama_expose_secured_port`
 
-Expose `Ollama` via a secure port by running a sidecar container running [Envoy Proxy](https://www.envoyproxy.io/)
+Expose `Ollama` via a secure port via [Envoy Proxy](https://www.envoyproxy.io/)
 
 Default `false`
 
@@ -104,12 +78,6 @@ Expose the proxy admin insecure port.
 
 Default `false`
 
-### `ollama_proxy_admin_expose_insecure_only_local`
-
-Expose the proxy admin insecure port `9901` only to the localhost.
-
-Default `true`
-
 ### `ollama_proxy_admin_expose_secure`
 
 Expose the proxy admin port as a secure port using the same certificates
@@ -128,23 +96,11 @@ Provision [FluentBit](https://fluentbit.io/) to scrape metrics and act as a Prom
 
 Default `false`
 
-### `ollama_fluentbit_image_tag`
-
-Tag of FluentBit [container image](https://hub.docker.com/r/fluent/fluent-bit)
-
-Default `2.2`
-
 ### `ollama_fluentbit_expose_insecure`
 
 Expose the FluentBit insecure port.
 
 Default `false`
-
-### `ollama_fluentbit_expose_insecure_only_local`
-
-Expose the FluentBit insecure port `2021` only to the localhost.
-
-Default `true`
 
 ### `ollama_fluentbit_expose_secure`
 

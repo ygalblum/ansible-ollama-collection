@@ -2,14 +2,28 @@
   ansible.builtin.include_tasks:
     file: preflight.yml
 
-- name: Installations
+- name: Install prerequisites
   ansible.builtin.include_tasks:
-    file: install.yml
+    file: install_prerequisites.yml
     apply:
       become: true
 
-- name: Provision Ollama
+- name: Install Ollama
   ansible.builtin.include_tasks:
-    file: setup_ollama.yml
+    file: install_ollama.yml
+    apply:
+      become: true
+
+- name: Install Fluent-Bit
+  ansible.builtin.include_tasks:
+    file: setup_fluentbit.yml
+    apply:
+      become: true
+  when: ollama_fluentbit_enable
+
+- name: Setup the secure port
+  ansible.builtin.include_tasks:
+    file: setup_secure_port.yml
     apply:
       become: false
+  when: ollama_expose_secured_port

@@ -1,4 +1,15 @@
-- name: Add FluentBit files and services
-  ansible.builtin.set_fact:
-    _ollama_template_files_list: "{{ _ollama_template_files_list + ['fluentbit.container', 'fluentbit.conf'] }}"
-    _ollama_services_list: "{{ _ollama_services_list + ['fluentbit'] }}"
+- name: Copy the configuration file
+  ansible.builtin.template:
+    src: "fluentbit.conf.j2"
+    dest: /etc/fluent-bit/fluent-bit.conf
+    mode: '0644'
+
+- name: Run daemon reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Starting the fluent-bit service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: fluent-bit.service
+    enabled: true

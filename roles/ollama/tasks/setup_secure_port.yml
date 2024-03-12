@@ -15,7 +15,33 @@
     skip_existing: true
     data: "{{ ollama_certificate_secret_data }}"
 
-- name: Add Proxy files and services
-  ansible.builtin.set_fact:
-    _ollama_template_files_list: "{{ _ollama_template_files_list + ['ollama-proxy.kube', 'ollama-proxy.yml', 'ollama-proxy-config.yml'] }}"
-    _ollama_services_list: "{{ _ollama_services_list + ['ollama-proxy'] }}"
+- name: Create Quadlet directory
+  ansible.builtin.file:
+    path: "{{ ollama_quadlet_directory }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0755'
+
+- name: Create Quadlet files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ ollama_quadlet_directory }}/{{ item }}"
+    mode: '0644'
+  loop:
+  - ollama-proxy.kube
+  - ollama-proxy.yml
+  - ollama-proxy-config.yml
+
+- name: Run daemon reload to make Quadlet create the service files
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: user
+
+- name: "Starting the proxy service"
+  ansible.builtin.systemd_service:
+    state: restarted
+    scope: user
+    name: "ollama-proxy.service"
+  async: 1800
+  poll: 10
