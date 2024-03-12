@@ -15,7 +15,7 @@
     state: latest
     update_only: true
   async: 1800
-  poll: 60
+  poll: 10
 
 - name: Get default kernel
   ansible.builtin.command:
@@ -52,17 +52,30 @@
     cmd: dnf config-manager --add-repo https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo
     creates: /etc/yum.repos.d/nvidia-container-toolkit.repo
 
+- name: Create package installation list
+  block:
+  - name: Initial list of prerequisites
+    ansible.builtin.set_fact:
+      _ollama_package_list:
+      - cuda-drivers
+      - nvidia-container-toolkit
+      - kernel-devel
+      - kernel-headers
+  - name: Add podman
+    when: ollama_expose_secured_port
+    ansible.builtin.set_fact:
+      _ollama_package_list: "{{ _ollama_package_list + ['podman'] }}"
+  - name: Add Fluent-Bit
+    when: ollama_fluentbit_enable
+    ansible.builtin.set_fact:
+      _ollama_package_list: "{{ _ollama_package_list + ['fluent-bit'] }}"
+
 - name: Install the required packages
   ansible.builtin.dnf:
-    name:
-    - cuda-drivers
-    - nvidia-container-toolkit
-    - podman
-    - kernel-devel
-    - kernel-headers
+    name: "{{ _ollama_package_list }}"
     state: present
   async: 1800
-  poll: 60
+  poll: 10
 
 - name: Add the NVIDIA module
   community.general.modprobe:
@@ -76,15 +89,11 @@
     enabled: true
     name: nvidia-persistenced.service
 
-- name: Create CDI File
-  ansible.builtin.command:
-    cmd: nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
-    creates: /etc/cdi/nvidia.yaml
-
 - name: Enable lingering for ansible_user
   ansible.builtin.command:
     cmd: loginctl enable-linger {{ ansible_user_id }}
     creates: '/var/lib/systemd/linger/{{ ansible_user_id }}'
+  when: ollama_expose_secured_port
 
 - name: Add the ip_table module to allow using a Podman Network
   community.general.modprobe:

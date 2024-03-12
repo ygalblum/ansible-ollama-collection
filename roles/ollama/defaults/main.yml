@@ -1,9 +1,5 @@
-ollama_quadlet_directory: "{{ ansible_user_dir }}/.config/containers/systemd/"
-ollama_container_image_tag: "latest"
 ollama_models:
 - mistral
-ollama_expose_insecure_port: true
-ollama_expose_insecure_port_only_local: true
 ollama_expose_secured_port: false
 ollama_secured_port: 11435
 # If not using K8S cert-manager need to set the paths to the certs files
@@ -16,13 +12,10 @@ ollama_certificate_ca_issuer: ""
 ollama_fqdn: ""
 # Expose the Proxy admin port
 ollama_proxy_admin_expose_insecure: false
-ollama_proxy_admin_expose_insecure_only_local: true
 ollama_proxy_admin_expose_secure: false
 ollama_proxy_admin_secure_port: 19901
 # Fluentbit for Prometheus metric exporting
 ollama_fluentbit_enable: false
-ollama_fluentbit_image_tag: "2.2"
 ollama_fluentbit_expose_insecure: false
-ollama_fluentbit_expose_insecure_only_local: true
 ollama_fluentbit_expose_secure: false
 ollama_fluentbit_expose_secure_port: 12021

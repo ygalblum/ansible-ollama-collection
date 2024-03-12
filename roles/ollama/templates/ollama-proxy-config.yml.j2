@@ -7,7 +7,7 @@ data:
     admin:
       address:
         socket_address:
-          address: 0.0.0.0
+          address: {{ ollama_proxy_admin_expose_insecure | ternary('0.0.0.0', '127.0.0.1') }}
           port_value: 9901
     static_resources:
       listeners:
@@ -128,7 +128,7 @@ data:
             - endpoint:
                 address:
                   socket_address:
-                    address: ollama
+                    address: 127.0.0.1
                     port_value: 11434
 {% if ollama_proxy_admin_expose_secure  %}
       - name: admin_cluster
@@ -153,6 +153,6 @@ data:
             - endpoint:
                 address:
                   socket_address:
-                    address: fluentbit
+                    address: 127.0.0.1
                     port_value: 2021
 {% endif %}

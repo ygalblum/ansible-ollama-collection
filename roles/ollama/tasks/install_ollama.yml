@@ -1,0 +1,65 @@
+- name: Set ARCH for Ollama
+  ansible.builtin.set_fact:
+    _ollama_arch: "{{ (ansible_machine == 'x86_64') | ternary('amd64', 'arm64') }}"
+
+- name: Download the executable
+  ansible.builtin.get_url:
+    url: "https://ollama.com/download/ollama-linux-{{ _ollama_arch }}"
+    dest: "{{ ollama_bin_dir }}/ollama"
+    mode: '0755'
+
+- name: Calculate user groups
+  become: false
+  block:
+  - name: Get groups
+    ansible.builtin.getent:
+      database: group
+      split: ':'
+  - name: Calculate additional groups
+    ansible.builtin.set_fact:
+      _ollama_user_groups: "{{ _ollama_user_groups | default([]) + [item] }}"
+    when: item in ansible_facts.getent_group
+    with_items:
+    - video
+    - render
+
+- name: Create the user ollama
+  ansible.builtin.user:
+    name: ollama
+    system: true
+    shell: /bin/false
+    home: /usr/share/ollama
+    groups: "{{ _ollama_user_groups }}"
+    append: true
+
+- name: Add provisioning user to the ollama group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups:
+    - ollama
+    append: true
+
+- name: Copy the systemd unit file
+  ansible.builtin.template:
+    src: ollama.service.j2
+    dest: /usr/lib/systemd/system/ollama.service
+    mode: '0644'
+
+- name: Run daemon reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start the ollama service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: ollama.service
+    enabled: true
+
+- name: Pull models
+  become: false
+  ansible.builtin.command:
+    cmd: "ollama pull {{ item }}"
+  async: 1800
+  poll: 10
+  loop: "{{ ollama_models }}"
+  changed_when: true
