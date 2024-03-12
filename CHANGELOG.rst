@@ -4,6 +4,14 @@ ygalblum.ollama Release Notes
 
 .. contents:: Topics
 
+v2.0.0
+======
+
+Major Changes
+-------------
+
+- Change deployment to non-containerized
+
 v1.2.1
 ======
 
