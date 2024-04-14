@@ -1,0 +1,31 @@
+- name: Preflight checks for secure mode
+  delegate_to: localhost
+  run_once: true
+  block:
+  - name: Verify Model Server ports are defined
+    ansible.builtin.assert:
+      that:
+      - proxy_model_server_local_port is defined
+      - proxy_model_server_secure_port is defined
+      fail_msg: "Both 'proxy_model_server_local_port' and 'proxy_model_server_secure_port' must be defined"
+
+  - name: If not using certificate manager - check that the certificates are provided
+    when: not proxy_use_k8s_cert_manager
+    ansible.builtin.assert:
+      that:
+      - proxy_certificate_ca_file | default("") | length > 0
+      - proxy_certificate_cert_file | default("") | length > 0
+      - proxy_certificate_key_file | default("") | length > 0
+
+  - name: If using certificate manager - Check that the required parameters for creating a certificate are set
+    when: proxy_use_k8s_cert_manager
+    block:
+    - name: Check the issuer name was set
+      ansible.builtin.assert:
+        that: proxy_certificate_ca_issuer | default('') | length > 0
+        fail_msg: proxy_certificate_ca_issuer must be set
+
+    - name: Check the FQDN was set
+      ansible.builtin.assert:
+        that: proxy_fqdn | default('') | length > 0
+        fail_msg: proxy_fqdn must be set

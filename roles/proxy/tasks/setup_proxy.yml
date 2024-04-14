@@ -1,23 +1,23 @@
 - name: Get Certificates secret data from files
   ansible.builtin.include_tasks:
     file: read_certs.yml
-  when: not ollama_use_k8s_cert_manager
+  when: not proxy_use_k8s_cert_manager
 
 - name: Get Certificates secret data using K8S certificate manager
   ansible.builtin.include_tasks:
     file: cert_manager.yml
-  when: ollama_use_k8s_cert_manager
+  when: proxy_use_k8s_cert_manager
 
-- name: Create the podman kube secret for the ollama certificate
+- name: Create the podman kube secret for the proxy certificate
   containers.podman.podman_secret:
-    name: "{{ ollama_certificate_name }}"
+    name: "{{ proxy_certificate_name }}"
     state: present
     skip_existing: true
-    data: "{{ ollama_certificate_secret_data }}"
+    data: "{{ proxy_certificate_secret_data }}"
 
 - name: Create Quadlet directory
   ansible.builtin.file:
-    path: "{{ ollama_quadlet_directory }}"
+    path: "{{ proxy_quadlet_directory }}"
     state: directory
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
@@ -26,12 +26,12 @@
 - name: Create Quadlet files
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: "{{ ollama_quadlet_directory }}/{{ item }}"
+    dest: "{{ proxy_quadlet_directory }}/{{ item }}"
     mode: '0644'
   loop:
-  - ollama-proxy.kube
-  - ollama-proxy.yml
-  - ollama-proxy-config.yml
+  - proxy.kube
+  - proxy.yml
+  - proxy-config.yml
 
 - name: Run daemon reload to make Quadlet create the service files
   ansible.builtin.systemd:
@@ -42,6 +42,6 @@
   ansible.builtin.systemd_service:
     state: restarted
     scope: user
-    name: "ollama-proxy.service"
+    name: proxy.service
   async: 1800
   poll: 10

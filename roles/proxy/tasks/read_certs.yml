@@ -1,0 +1,16 @@
+- name: Define secret data structure
+  ansible.builtin.set_fact:
+    _proxy_certificate_secret_data:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: "{{ proxy_certificate_name }}"
+      type: "kubernetes.io/tls"
+      data:
+        ca.crt: "{{ lookup('ansible.builtin.file', proxy_certificate_ca_file) | b64encode }}"
+        tls.crt: "{{ lookup('ansible.builtin.file', proxy_certificate_cert_file) | b64encode }}"
+        tls.key: "{{ lookup('ansible.builtin.file', proxy_certificate_key_file) | b64encode }}"
+
+- name: Set secret data
+  ansible.builtin.set_fact:
+    proxy_certificate_secret_data: "{{ _proxy_certificate_secret_data | to_json }}"

@@ -1,0 +1,13 @@
+- name: Preflight Checks
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
+- name: Install the required packages
+  ansible.builtin.include_tasks:
+    file: installation.yml
+    apply:
+      become: true
+
+- name: Setup the proxy
+  ansible.builtin.include_tasks:
+    file: setup_proxy.yml

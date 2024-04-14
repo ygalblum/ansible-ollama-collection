@@ -1,0 +1,2 @@
+proxy_certificate_name: llm-engine-proxy-server
+proxy_quadlet_directory: "{{ ansible_user_dir }}/.config/containers/systemd/"

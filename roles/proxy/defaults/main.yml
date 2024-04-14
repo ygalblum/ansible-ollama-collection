@@ -1,0 +1,16 @@
+# If not using K8S cert-manager need to set the paths to the certs files
+proxy_certificate_ca_file: ""
+proxy_certificate_cert_file: ""
+proxy_certificate_key_file: ""
+# Using K8S cert-manager requires setting the name of the CA Issuer and the FQDN
+proxy_use_k8s_cert_manager: false
+proxy_certificate_namespace: ""
+proxy_certificate_ca_issuer: ""
+proxy_fqdn: ""
+# Expose the Proxy admin port
+proxy_admin_expose_insecure: false
+proxy_admin_expose_secure: false
+proxy_admin_secure_port: 19901
+# Fluentbit for Prometheus metric exporting
+proxy_fluentbit_expose_secure: false
+proxy_fluentbit_secure_port: 12021
