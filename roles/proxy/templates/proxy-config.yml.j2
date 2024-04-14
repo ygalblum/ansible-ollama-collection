@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ollama-proxy-config
+  name: proxy-config
 data:
   envoy.yaml: |
     admin:
       address:
         socket_address:
-          address: {{ ollama_proxy_admin_expose_insecure | ternary('0.0.0.0', '127.0.0.1') }}
+          address: {{ proxy_admin_expose_insecure | ternary('0.0.0.0', '127.0.0.1') }}
           port_value: 9901
     static_resources:
       listeners:
-      - name: ollama_listener
+      - name: model_server_listener
         address:
           socket_address:
             address: 0.0.0.0
-            port_value: {{ ollama_secured_port }}
+            port_value: {{ proxy_model_server_secure_port }}
         listener_filters:
         - name: "envoy.filters.listener.tls_inspector"
           typed_config:
@@ -25,8 +25,8 @@ data:
           - name: envoy.filters.network.tcp_proxy
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
-              stat_prefix: ollama_tcp
-              cluster: ollama_cluster
+              stat_prefix: model_server_tcp
+              cluster: model_server_cluster
           transport_socket:
             name: envoy.transport_sockets.tls
             typed_config:
@@ -42,15 +42,15 @@ data:
                   # match_typed_subject_alt_names:
                   # - san_type: DNS
                   #   matcher:
-                  #     exact: proxy-ollama-frontend.example.com
+                  #     exact: frontend.example.com
                   trusted_ca:
                     filename: /etc/envoy-certificates/ca.crt
-{% if ollama_proxy_admin_expose_secure %}
+{% if proxy_admin_expose_secure %}
       - name: admin_listener
         address:
           socket_address:
             address: 0.0.0.0
-            port_value: {{ ollama_proxy_admin_secure_port }}
+            port_value: {{ proxy_admin_secure_port }}
         listener_filters:
         - name: "envoy.filters.listener.tls_inspector"
           typed_config:
@@ -77,16 +77,16 @@ data:
                   # match_typed_subject_alt_names:
                   # - san_type: DNS
                   #   matcher:
-                  #     exact: proxy-ollama-frontend.example.com
+                  #     exact: frontend.example.com
                   trusted_ca:
                     filename: /etc/envoy-certificates/ca.crt
 {% endif %}
-{% if ollama_fluentbit_enable and ollama_fluentbit_expose_secure %}
+{% if proxy_fluentbit_expose_secure %}
       - name: fluentbit_listener
         address:
           socket_address:
             address: 0.0.0.0
-            port_value: {{ ollama_fluentbit_expose_secure_port }}
+            port_value: {{ proxy_fluentbit_secure_port }}
         listener_filters:
         - name: "envoy.filters.listener.tls_inspector"
           typed_config:
@@ -113,24 +113,24 @@ data:
                   # match_typed_subject_alt_names:
                   # - san_type: DNS
                   #   matcher:
-                  #     exact: proxy-ollama-frontend.example.com
+                  #     exact: frontend.example.com
                   trusted_ca:
                     filename: /etc/envoy-certificates/ca.crt
 {% endif %}
 
       clusters:
-      - name: ollama_cluster
+      - name: model_server_cluster
         type: STRICT_DNS
         load_assignment:
-          cluster_name: ollama_cluster
+          cluster_name: model_server_cluster
           endpoints:
           - lb_endpoints:
             - endpoint:
                 address:
                   socket_address:
                     address: 127.0.0.1
-                    port_value: 11434
-{% if ollama_proxy_admin_expose_secure  %}
+                    port_value: {{ proxy_model_server_local_port }}
+{% if proxy_admin_expose_secure  %}
       - name: admin_cluster
         type: STRICT_DNS
         load_assignment:
@@ -143,7 +143,7 @@ data:
                     address: 127.0.0.1
                     port_value: 9901
 {% endif %}
-{% if ollama_fluentbit_enable and ollama_fluentbit_expose_secure  %}
+{% if proxy_fluentbit_expose_secure  %}
       - name: fluentbit_cluster
         type: STRICT_DNS
         load_assignment:

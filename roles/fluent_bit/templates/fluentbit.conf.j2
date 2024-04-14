@@ -90,5 +90,5 @@
 [OUTPUT]
     name               prometheus_exporter
     match              *_metric
-    host               {{ ollama_fluentbit_expose_insecure | ternary('0.0.0.0', '127.0.0.1') }}
+    host               {{ fluent_bit_expose_insecure | ternary('0.0.0.0', '127.0.0.1') }}
     port               2021

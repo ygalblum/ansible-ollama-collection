@@ -11,10 +11,10 @@
     kubernetes.core.k8s_info:
       api_version: v1
       kind: Secret
-      name: "{{ ollama_certificate_name }}"
-      namespace: "{{ ollama_certificate_namespace }}"
-    register: ollama_certificate_secret
+      name: "{{ proxy_certificate_name }}"
+      namespace: "{{ proxy_certificate_namespace }}"
+    register: proxy_certificate_secret
 
 - name: Set Secret Data
   ansible.builtin.set_fact:
-    ollama_certificate_secret_data: "{{ ollama_certificate_secret.resources[0] }}"
+    proxy_certificate_secret_data: "{{ proxy_certificate_secret.resources[0] }}"

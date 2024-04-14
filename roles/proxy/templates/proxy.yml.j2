@@ -2,20 +2,17 @@
 apiVersion: v1
 kind: Deployment
 metadata:
-  name: ollama-proxy
   labels:
-    app: ollama
     component: proxy
+  name: proxy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ollama
       component: proxy
   template:
     metadata:
       labels:
-        app: ollama
         component: proxy
     spec:
       containers:
@@ -32,7 +29,7 @@ spec:
       volumes:
       - name: proxy-config
         configMap:
-          name: ollama-proxy-config
+          name: proxy-config
       - name: certificates
         secret:
-          secretName: {{ ollama_certificate_name }}
+          secretName: {{ proxy_certificate_name }}

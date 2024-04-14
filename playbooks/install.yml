@@ -1,4 +1,26 @@
+- name: Common Installations
+  hosts: all
+  become: true
+  tasks:
+  - name: Install NVIDIA drivers and applications
+    ansible.builtin.include_role:
+      name: nvidia
+    when: install_nvidia | default(false)
+
+  - name: Install Fluent-Bit
+    ansible.builtin.include_role:
+      name: fluent_bit
+
 - name: Install Secured Ollama
   hosts: ollama
+  become: true
+  vars:
+    proxy_model_server_local_port: "{{ model_server_local_port | default(11434) }}"
+    proxy_model_server_secure_port: "{{ model_server_secure_port | default(11435) }}"
   roles:
   - ollama
+
+- name: Install the proxy
+  hosts: all
+  roles:
+  - proxy
