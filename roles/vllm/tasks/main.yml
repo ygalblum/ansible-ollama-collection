@@ -1,0 +1,67 @@
+- name: Preflight checks for vllm
+  delegate_to: localhost
+  run_once: true
+  block:
+  - name: Verify vllm_api_token is set
+    ansible.builtin.assert:
+      that:
+      - vllm_api_token  | default("") | length > 0
+
+- name: Install the required packages
+  become: true
+  ansible.builtin.dnf:
+    name: python3-pip
+    state: present
+  async: 1800
+  poll: 10
+
+- name: Install vLLM
+  ansible.builtin.pip:
+    name: vllm
+
+- name: Calculate user groups
+  become: false
+  block:
+  - name: Get groups
+    ansible.builtin.getent:
+      database: group
+      split: ':'
+  - name: Calculate additional groups
+    ansible.builtin.set_fact:
+      _vllm_user_groups: "{{ _vllm_user_groups | default([]) + [item] }}"
+    when: item in ansible_facts.getent_group
+    with_items:
+    - video
+    - render
+
+- name: Create the user vllm
+  ansible.builtin.user:
+    name: vllm
+    system: true
+    shell: /bin/false
+    home: /usr/share/vllm
+    groups: "{{ _vllm_user_groups }}"
+    append: true
+
+- name: Add provisioning user to the vllm group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups:
+    - vllm
+    append: true
+
+- name: Copy the systemd unit file
+  ansible.builtin.template:
+    src: vllm.service.j2
+    dest: /usr/lib/systemd/system/vllm.service
+    mode: '0644'
+
+- name: Run daemon reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start the vllm service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: vllm.service
+    enabled: true

@@ -20,6 +20,14 @@
   roles:
   - ollama
 
+- name: Install Secured vLLM
+  hosts: vllm
+  vars:
+    proxy_model_server_local_port: "{{ model_server_local_port | default(8000) }}"
+    proxy_model_server_secure_port: "{{ model_server_secure_port | default(8443) }}"
+  roles:
+  - vllm
+
 - name: Install the proxy
   hosts: all
   roles:

@@ -1,0 +1,14 @@
+[Unit]
+Description=vLLM Service
+After=network-online.target
+
+[Service]
+ExecStart=python -m vllm.entrypoints.openai.api_server --model {{ vllm_model }} --dtype auto --api-key {{ vllm_api_token }}
+User=vllm
+Group=vllm
+Restart=always
+RestartSec=3
+Environment="PATH=$PATH"
+
+[Install]
+WantedBy=default.target
